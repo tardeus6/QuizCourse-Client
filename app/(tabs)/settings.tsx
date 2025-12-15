@@ -13,7 +13,7 @@ export default function Settings() {
     useSettingsStore.getState().setSettings(settings);
   }
   return (
-    <SafeAreaView style= {styles.commonStyles.mainContainer}>
+    <SafeAreaView style= {{...styles.commonStyles.mainContainer, padding: 20}}>
       <View style={styles.commonStyles.formContainer}>
         <Text style={styles.commonStyles.header}>Налаштування</Text>
         <TextInput 

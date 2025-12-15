@@ -1,10 +1,11 @@
 import { apiFetch } from "@/lib/apiFetch";
 import { TestInfo } from "@/types";
 import { SetStateAction, useEffect, useState } from "react";
-import TestList from "./TestList";
+import TestList from "./testCompletion/TestList";
 
 export default function TestSearch({setSelectedQuiz}: {setSelectedQuiz: React.Dispatch<SetStateAction<TestInfo | null>>}) {
     const [QuizInfo, setQuizInfo] = useState([]);
+    console.log('search')
     useEffect(() => {
         async function fetchTests() {
             const response = await apiFetch('/api/quizzes/list', { method: 'GET' });
@@ -13,6 +14,7 @@ export default function TestSearch({setSelectedQuiz}: {setSelectedQuiz: React.Di
         }
         fetchTests();
     }, []);
+    console.log('searchB')
     return (
         <TestList testsInfo={QuizInfo} setSelectedQuiz={setSelectedQuiz}/>
     );

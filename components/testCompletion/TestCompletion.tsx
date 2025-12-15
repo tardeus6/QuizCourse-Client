@@ -2,7 +2,7 @@ import { apiFetch } from "@/lib/apiFetch";
 import styles from "@/lib/styles";
 import { CompletionData, QuizInfo } from "@/types";
 import { Pressable, Text, View } from "react-native";
-import QuestionList from "./QuestionList";
+import QuestionList from "../QuestionList";
 
 interface TestCompletionProps{
     quizData: QuizInfo,

@@ -1,35 +1,62 @@
 import { apiFetch } from "@/lib/apiFetch";
 import styles from "@/lib/styles";
-import { useState } from "react";
+import { TestInfo } from "@/types";
+import { SetStateAction, useEffect, useState } from "react";
 import { Alert, Pressable, Text, View } from "react-native";
+import QuestionList from "../QuestionList";
 import QuestionEditingForm from "./QuestionEditingForm";
-import QuestionList from "./QuestionList";
-
-export default function TestManager({ mode }: { mode: 'create' | 'edit' }) {
+export default function TestManager({ quizID, setSelectedQuiz, changeMode }: { quizID?: string, setSelectedQuiz?: React.Dispatch<SetStateAction<TestInfo | null>>, changeMode?: (mode: 'homePage' | 'testCreation') => void }) {
     const [questionsState, setQuestionsState] = useState({
+        _id: '',
         index: 0,
+        title: '',
         questions: [] as string[],
         answerVariants: [] as string[][],
         correctAnswers: [] as number[],
         questionsValues: [] as number[],
     });
+    if(quizID !== ''){
+        useEffect(()=>{
+            async function fetch() {
+                const response = await apiFetch(`/api/quizzes/${quizID}`)
+                const result = await response.json();
 
+                setQuestionsState((prev) => {
+                    return {...prev, quizID, title: result.data.title,
+                            questions: result.data.questions,
+                            answerVariants: result.data.answerVariants,
+                            correctAnswers: result.data.correctAnswers,
+                            questionsValues: result.data.answersValue}
+                })
+            }
+            fetch()
+        }, [])
+    }
     const sendQuizToServer = async () => {
         const quizData = {
-            title: `Quiz ${new Date().toLocaleDateString()}`, // Example title
+            quizID,
+            title: questionsState.title,
             questions: questionsState.questions,
-            answers: questionsState.answerVariants,
+            answersVariants: questionsState.answerVariants,
             correctAnswers: questionsState.correctAnswers,
-            answerValues: questionsState.questionsValues,
+            answersValue: questionsState.questionsValues,
         };
-
+        console.log(quizData)
         try {
-            const response = await apiFetch('/api/quizzes/create', {
-                method: 'POST',
-                body: JSON.stringify(quizData),
-            });
-
-            const result = await response.json();
+            let response;
+            if (quizData !== undefined && setSelectedQuiz) {
+                response = await apiFetch('/api/quizzes/edit', {
+                    method: "PUT",
+                    body: JSON.stringify(quizData)
+                })
+                setSelectedQuiz(null);
+            } else {
+                response = await apiFetch('/api/quizzes/create', {
+                    method: 'POST',
+                    body: JSON.stringify(quizData),
+                });
+                if(changeMode) changeMode('homePage')
+            }
 
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -67,7 +94,7 @@ export default function TestManager({ mode }: { mode: 'create' | 'edit' }) {
                 setCurrentQuestion={(newIndex) =>
                     setQuestionsState((prev) => ({
                         ...prev,
-                        index: typeof newIndex === 'function' ? newIndex(prev.index) : newIndex,
+                        index: newIndex,
                     }))
                 }
                 AdditionalItem={AdditionalItem}

@@ -23,7 +23,8 @@ export default function LoginForm() {
                 body: JSON.stringify({ username: nickname, password }),
             });
             const data = await response.json();
-            useAuthStore.getState().login(data.token);
+            console.log(data)
+            useAuthStore.getState().login(data.token, data.userId);
         }
     }
     return (

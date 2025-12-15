@@ -14,7 +14,7 @@ interface AuthState {
 const useSettingsStore = create<AuthState>()(
     persist(
         (set) => ({
-            settings: { serverUrl: 'localhost:3000' },
+            settings: { serverUrl: 'https://amya-unmachineable-honey.ngrok-free.dev' },
             setSettings: (settings) => set({ settings }),
             setServerUrl: (url: string) =>
                 set((state) => ({

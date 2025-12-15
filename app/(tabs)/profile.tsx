@@ -8,7 +8,7 @@ export default function ProfilePage() {
     const token = useAuthStore(state => state.token);
 
     return (
-        <SafeAreaView style={styles.commonStyles.mainContainer}>
+        <SafeAreaView style={{...styles.commonStyles.mainContainer, padding: 20}}>
             {token ? <Profile /> : <AuthForm />}
         </SafeAreaView>
     );

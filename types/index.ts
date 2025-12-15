@@ -2,6 +2,7 @@ export interface TestInfo {
     _id?: string;
     title?: string;
     author?: string;
+    authorID?: string;
     questionsCount?: number;
     maxGrade?: number;
 }

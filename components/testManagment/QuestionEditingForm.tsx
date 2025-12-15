@@ -4,8 +4,8 @@ import React, { Dispatch, SetStateAction, useCallback } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 interface QuestionEditingFormProps {
-    questionsState: { index: number, questions: string[], answerVariants: string[][], correctAnswers: number[], questionsValues: number[] },
-    setQuestionsState: Dispatch<SetStateAction<{ index: number, questions: string[], answerVariants: string[][], correctAnswers: number[], questionsValues: number[] }>>,
+    questionsState: { index: number, title: string, questions: string[], answerVariants: string[][], correctAnswers: number[], questionsValues: number[] },
+    setQuestionsState: Dispatch<SetStateAction<{ _id: string, index: number, title: string, questions: string[], answerVariants: string[][], correctAnswers: number[], questionsValues: number[] }>>,
 }
 
 export default function QuestionEditingForm({ questionsState, setQuestionsState }: QuestionEditingFormProps) {
@@ -66,12 +66,25 @@ export default function QuestionEditingForm({ questionsState, setQuestionsState 
         });
     }, [setQuestionsState, currentIndex])
 
+    const titleChangeHandler = useCallback((text: string) => {
+        setQuestionsState(prev => {
+            return { ...prev, title: text };
+        });
+    }, [setQuestionsState, currentIndex]);
     const currentQuestion = questionsState.questions[currentIndex] ?? '';
     const currentVariants = questionsState.answerVariants[currentIndex] ?? [];
     const correctAnswer = questionsState.correctAnswers[currentIndex];
     const questionValue = questionsState.questionsValues[currentIndex] ?? 0;
     return (
         <View style={styles.commonStyles.formContainer}>
+            <TextInput 
+                style={styles.commonStyles.textInput}
+                placeholder="Назва тесту"
+                value={questionsState.title}
+                placeholderTextColor={styles.mainColorDark}
+                textAlign="center"
+                onChangeText={titleChangeHandler}
+            />
             <Text accessibilityRole="header" style={styles.commonStyles.header}>Запитання {currentIndex + 1}</Text>
 
             <TextInput

@@ -1,10 +1,10 @@
-import Test from "@/components/Test";
+import TestPage from "@/components/Test";
 import TestSearch from "@/components/TestSearch";
 import styles from "@/lib/styles";
 import { TestInfo } from "@/types";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-export default function TestPage(){
+export default function TestTab(){
     const [selectedQuiz, setSelectedQuiz] = useState<TestInfo | null>(null);
     
     function selectView() {
@@ -12,11 +12,11 @@ export default function TestPage(){
             case null:
                 return <TestSearch setSelectedQuiz={setSelectedQuiz}/>;
             default:
-                return <Test quizInfo={selectedQuiz} setSelectedQuiz={setSelectedQuiz}/>
+                return <TestPage quizInfo={selectedQuiz} setSelectedQuiz={setSelectedQuiz}/>
         }
     }
     return (
-        <SafeAreaView style={styles.commonStyles.mainContainer}>
+        <SafeAreaView style={{...styles.commonStyles.mainContainer, padding: 20}}>
             {
                 selectView()
             }
