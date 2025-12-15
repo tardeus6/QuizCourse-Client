@@ -1,0 +1,34 @@
+// api/apiFetch.ts
+import useAuthStore from '@/store/useAuthStore';
+import useSettingsStore from '@/store/useSettingStore';
+
+export async function apiFetch(
+  path: string,
+  options: RequestInit = {}
+) {
+  const baseUrl = useSettingsStore.getState().settings.serverUrl;
+
+  // normalize existing headers (handles Headers instance or plain object)
+  const originalHeaders: Record<string, string> =
+    options.headers instanceof Headers
+      ? Object.fromEntries(options.headers.entries())
+      : (options.headers as Record<string, string>) || {};
+
+  const token = useAuthStore.getState().token;
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...originalHeaders,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  const response = await fetch(`https://amya-unmachineable-honey.ngrok-free.dev${path}`, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
+
+  return response;
+}
