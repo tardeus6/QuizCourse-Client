@@ -13,7 +13,13 @@ interface TestDataProps {
     setEdit: React.Dispatch<React.SetStateAction<boolean>>,
     setSelectedQuiz: React.Dispatch<React.SetStateAction<TestInfo | null>>
 }
-export default function TestStatus({ quizData, setQuizData, setCompletionID, setStarted, setEdit, setSelectedQuiz }: TestDataProps) {
+export default function TestStatus({ 
+        quizData, 
+        setQuizData, 
+        setCompletionID, 
+        setStarted, 
+        setEdit, 
+        setSelectedQuiz }: TestDataProps) {
     const [completionsInfo, setCompletionsInfo] = useState([]);
     async function onStart() {
         const response = await apiFetch('/api/completions/start', {
@@ -23,14 +29,22 @@ export default function TestStatus({ quizData, setQuizData, setCompletionID, set
         if (response.ok) {
             const data = await response.json();
             setQuizData(prev => {
-                if (!prev) return { ...data.completion.quizData, currentQuestion: 0, answers: new Array(data.completion.quizData.questions.length) }
-                return { ...prev, questions: data?.quizData.questions, answerVariants: data?.quizData.answerVariants, currentQuestion: 0, answers: new Array(data.completion.quizData.questions.length) };
+                if (!prev) return { 
+                    ...data.completion.quizData, 
+                    currentQuestion: 0, 
+                    answers: new Array(data.completion.quizData.questions.length),
+                    title: data?.quizData.title }
+                return { 
+                    ...prev, questions: data?.quizData.questions, 
+                    answerVariants: data?.quizData.answerVariants, 
+                    currentQuestion: 0, 
+                    answers: new Array(data.completion.quizData.questions.length),
+                    title: data?.quizData.title };
             });
             setCompletionID(data.completion.completionID);
             setStarted(true);
         }
     }
-    console.log(completionsInfo)
     if(useAuthStore().userID === quizData.authorID) {
             useEffect(()=>{
                 async function fetchCompletions() {

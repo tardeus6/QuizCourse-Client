@@ -13,7 +13,6 @@ interface TestCompletionProps{
 }
 export default function TestCompletion({ quizData, setQuizData, completionID, setFinished, setCompletionData }:TestCompletionProps ) {
     const currentQuestion = quizData.currentQuestion;
-    console.log(quizData)
     function submitResults(){
         async function submitRes() {
             const result = await apiFetch('/api/completions/finish', {
@@ -25,7 +24,10 @@ export default function TestCompletion({ quizData, setQuizData, completionID, se
                 })
             })
             const data = await result.json();
-            setCompletionData({grade: data.data.grade, dateOfCompletion: data.data.dateOfCompletion, testTitle: quizData.title})
+            setCompletionData({
+                grade: data.data.grade, 
+                dateOfCompletion: data.data.dateOfCompletion, 
+                testTitle: quizData.title})
             setFinished(true);
         }
         submitRes();

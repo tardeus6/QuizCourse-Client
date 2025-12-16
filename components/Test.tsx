@@ -6,8 +6,11 @@ import Test from "./testCompletion/TestCompletion";
 import Result from "./testCompletion/TestResult";
 import TestManager from "./testManagment/TestManager";
 import TestStatus from "./TestStatus";
-
-export default function TestPage({ quizInfo, setSelectedQuiz }: { quizInfo: TestInfo, setSelectedQuiz: React.Dispatch<SetStateAction<TestInfo | null>> }) {
+interface TestPageProps{
+    quizInfo: TestInfo, 
+    setSelectedQuiz: React.Dispatch<SetStateAction<TestInfo | null>>
+}
+export default function TestPage({ quizInfo, setSelectedQuiz }:TestPageProps) {
     const [quizData, setQuizInfo] = useState<QuizInfo>({
         questions: [],
         answerVariants: [],
@@ -21,11 +24,21 @@ export default function TestPage({ quizInfo, setSelectedQuiz }: { quizInfo: Test
     const [edit, setEdit] = useState(false);
 
     const currentView = useMemo(() => {
-        if(edit) return <TestManager quizID={quizInfo._id as string} setSelectedQuiz={setSelectedQuiz}></TestManager>
+        if(edit) return <TestManager quizID={quizInfo._id as string} 
+            setSelectedQuiz={setSelectedQuiz}></TestManager>
         if (!quizData || !started && !finished) {
-            return <TestStatus quizData={quizInfo} setQuizData={setQuizInfo} setCompletionID={setCompletionID} setStarted={setStarted} setEdit={setEdit} setSelectedQuiz={setSelectedQuiz} />
+            return <TestStatus quizData={quizInfo} 
+                setQuizData={setQuizInfo}  
+                setCompletionID={setCompletionID}
+                setStarted={setStarted}
+                setEdit={setEdit}
+                setSelectedQuiz={setSelectedQuiz} />
         } else if (started && !finished) {
-            return <Test quizData={quizData} setQuizData={setQuizInfo} completionID={completionID} setFinished={setFinished} setCompletionData={setCompletionData}/>
+            return <Test quizData={quizData} 
+                setQuizData={setQuizInfo} 
+                completionID={completionID} 
+                setFinished={setFinished} 
+                setCompletionData={setCompletionData}/>
         } else if (finished) {
             return <Result resultData={completionData} setSelectedQuiz={setSelectedQuiz}/>
         }

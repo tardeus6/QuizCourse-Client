@@ -28,8 +28,11 @@ export default function LoginForm() {
         }
     }
     return (
-        <View style={{...styles.commonStyles.formContainer, justifyContent: 'space-between'}}>
-            <View style={{ rowGap: 15, width: '100%' , alignItems: 'center' }}>
+        <View style={{
+            ...styles.commonStyles.formContainer,
+            justifyContent: 'space-between'
+        }}>
+            <View style={{ rowGap: 15, width: '100%', alignItems: 'center' }}>
                 <Text style={styles.commonStyles.header}>Вхід</Text>
                 <TextInput
                     style={styles.commonStyles.textInput}
@@ -47,7 +50,8 @@ export default function LoginForm() {
                     accessibilityLabel="Ввести пароль"
                 />
             </View>
-            <Pressable style={styles.commonStyles.button} onPress={handleLogin} accessibilityLabel="Увійти">
+            <Pressable style={styles.commonStyles.button} onPress={handleLogin}
+                accessibilityLabel="Увійти">
                 <Text style={styles.commonStyles.buttonText}>Увійти</Text>
             </Pressable>
         </View>);

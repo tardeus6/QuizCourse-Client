@@ -5,12 +5,12 @@ import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Settings() {
-  const [settings, setSettings] = useState(useSettingsStore.getState().settings);
+  const [serverUrl, setServerUrl] = useState(useSettingsStore.getState().serverUrl);
   function changeServerUrl(text: string) {
-    setSettings({...settings, serverUrl: text});
+    setServerUrl(text);
   }
   function saveSettings() {
-    useSettingsStore.getState().setSettings(settings);
+    useSettingsStore.getState().setServerUrl(serverUrl);
   }
   return (
     <SafeAreaView style= {{...styles.commonStyles.mainContainer, padding: 20}}>
@@ -23,7 +23,8 @@ export default function Settings() {
           placeholderTextColor={styles.mainColorDark}
         />
         <View>
-          <Pressable style={styles.commonStyles.button} onPress={saveSettings} accessibilityLabel="Зберегти налаштування">
+          <Pressable style={styles.commonStyles.button} onPress={saveSettings}
+            accessibilityLabel="Зберегти налаштування">
             <Text style={styles.commonStyles.buttonText}>Зберегти</Text>
           </Pressable>
         </View>

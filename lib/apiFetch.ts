@@ -1,4 +1,3 @@
-// api/apiFetch.ts
 import useAuthStore from '@/store/useAuthStore';
 import useSettingsStore from '@/store/useSettingStore';
 
@@ -6,8 +5,8 @@ export async function apiFetch(
   path: string,
   options: RequestInit = {}
 ) {
-  const baseUrl = useSettingsStore.getState().settings.serverUrl; // ✅ правильно поза компонентом
-  const token = useAuthStore.getState().token; // ✅ правильно поза компонентом
+  const baseUrl = useSettingsStore.getState().serverUrl; 
+  const token = useAuthStore.getState().token; 
 
   const originalHeaders: Record<string, string> =
     options.headers instanceof Headers

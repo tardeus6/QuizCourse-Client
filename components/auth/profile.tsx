@@ -26,7 +26,7 @@ export default function Profile() {
             <Text style={{...styles.commonStyles.header, marginBottom: 10}}>Profile Page</Text>
             <Text style={{...styles.commonStyles.header, marginBottom: 10}}>Останні результати</Text>
             <CompletionsList completions={lastCompletions}/>
-            <Pressable style={styles.commonStyles.button} onPress={handleLogout}>
+            <Pressable style={{...styles.commonStyles.button, marginTop: 10}} onPress={handleLogout}>
                 <Text style={styles.commonStyles.buttonText}>Logout</Text>
             </Pressable>
         </View>

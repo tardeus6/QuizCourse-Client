@@ -13,14 +13,20 @@ interface Completion{
 
 export default function CompletionsList({completions} :{completions: Completion[]} ){
     return (
-        <ScrollView>
+        <ScrollView style={{borderRadius: 16, borderWidth:2, 
+            borderColor: styles.mainColor, padding:16}}>
             {completions.map((item, key) => {
-                return (<View key={key}>
-                    <Text style={{...styles.commonStyles.text, fontWeight: "bold"}}>{item.quizID.title}</Text>
-                    <Text style={{...styles.commonStyles.text, fontWeight: "bold"}}>Оцінка: {item.grade}</Text>
-                    <Text style={{...styles.commonStyles.text, fontWeight: "bold"}}>Виконано: {item.completedBy ? 
-                    item.dateOfCompletion.toString() + ' ' + item.completedBy.username 
-                    : item.dateOfCompletion.toString()}</Text>
+                return (<View key={key} style={{padding:8}}>
+                    <Text style={{...styles.commonStyles.text, fontWeight: "bold"}}>
+                        {item?.quizID?.title ?? 'deleted'}
+                        </Text>
+                    <Text style={{...styles.commonStyles.text, fontWeight: "bold"}}>
+                        Оцінка: {item.grade}
+                        </Text>
+                    <Text style={{...styles.commonStyles.text, fontWeight: "bold"}}>
+                        Виконано: {item.completedBy ? item.dateOfCompletion.toString()
+                    : item.dateOfCompletion.toString() + ' ' + item.completedBy.username }
+                    </Text>
                 </View>)
             })}
         </ScrollView>

@@ -5,7 +5,12 @@ import { SetStateAction, useEffect, useState } from "react";
 import { Alert, Pressable, Text, View } from "react-native";
 import QuestionList from "../QuestionList";
 import QuestionEditingForm from "./QuestionEditingForm";
-export default function TestManager({ quizID, setSelectedQuiz, changeMode }: { quizID?: string, setSelectedQuiz?: React.Dispatch<SetStateAction<TestInfo | null>>, changeMode?: (mode: 'homePage' | 'testCreation') => void }) {
+interface TestManagerProps{
+     quizID?: string, 
+     setSelectedQuiz?: React.Dispatch<SetStateAction<TestInfo | null>>, 
+     changeMode?: (mode: 'homePage' | 'testCreation') => void 
+    }
+export default function TestManager({ quizID, setSelectedQuiz, changeMode }: TestManagerProps) {
     const [questionsState, setQuestionsState] = useState({
         _id: '',
         index: 0,
@@ -15,7 +20,7 @@ export default function TestManager({ quizID, setSelectedQuiz, changeMode }: { q
         correctAnswers: [] as number[],
         questionsValues: [] as number[],
     });
-    if(quizID !== ''){
+    if(quizID !== '' && quizID){
         useEffect(()=>{
             async function fetch() {
                 const response = await apiFetch(`/api/quizzes/${quizID}`)
@@ -41,7 +46,7 @@ export default function TestManager({ quizID, setSelectedQuiz, changeMode }: { q
             correctAnswers: questionsState.correctAnswers,
             answersValue: questionsState.questionsValues,
         };
-        console.log(quizData)
+
         try {
             let response;
             if (quizData !== undefined && setSelectedQuiz) {
@@ -77,7 +82,7 @@ export default function TestManager({ quizID, setSelectedQuiz, changeMode }: { q
                         ...prev,
                         questions: [...prev.questions, `New Question ${prev.questions.length + 1}`],
                         answerVariants: [...prev.answerVariants, []],
-                        correctAnswers: [...prev.correctAnswers, -1], // Initialize with no correct answer
+                        correctAnswers: [...prev.correctAnswers, -1], 
                     }))
                 }
             >

@@ -4,11 +4,28 @@ import React, { Dispatch, SetStateAction, useCallback } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 interface QuestionEditingFormProps {
-    questionsState: { index: number, title: string, questions: string[], answerVariants: string[][], correctAnswers: number[], questionsValues: number[] },
-    setQuestionsState: Dispatch<SetStateAction<{ _id: string, index: number, title: string, questions: string[], answerVariants: string[][], correctAnswers: number[], questionsValues: number[] }>>,
+    questionsState: {
+        index: number,
+        title: string,
+        questions: string[],
+        answerVariants: string[][],
+        correctAnswers: number[],
+        questionsValues: number[]
+    },
+    setQuestionsState: Dispatch<SetStateAction<{
+        _id: string,
+        index: number,
+        title: string,
+        questions: string[],
+        answerVariants: string[][],
+        correctAnswers: number[],
+        questionsValues: number[]
+    }>>,
 }
 
-export default function QuestionEditingForm({ questionsState, setQuestionsState }: QuestionEditingFormProps) {
+export default function QuestionEditingForm({
+    questionsState,
+    setQuestionsState }: QuestionEditingFormProps) {
     const currentIndex = questionsState.index;
 
     const variantChangeHandler = useCallback((variantIndex: number, newText: string) => {
@@ -32,11 +49,12 @@ export default function QuestionEditingForm({ questionsState, setQuestionsState 
     const removeVariantHandler = useCallback((variantIndex: number) => {
         setQuestionsState(prev => {
             const answerVariants = prev.answerVariants.map(arr => arr ? [...arr] : []);
-            answerVariants[currentIndex] = (answerVariants[currentIndex] || []).filter((_, i) => i !== variantIndex);
+            answerVariants[currentIndex]
+                = (answerVariants[currentIndex] || []).filter((_, i) => i !== variantIndex);
 
             const correctAnswers = [...prev.correctAnswers];
             if (correctAnswers[currentIndex] === variantIndex) {
-                correctAnswers[currentIndex] = -1; // Reset correct answer if removed
+                correctAnswers[currentIndex] = -1;
             }
             return { ...prev, answerVariants, correctAnswers };
         });
@@ -71,13 +89,14 @@ export default function QuestionEditingForm({ questionsState, setQuestionsState 
             return { ...prev, title: text };
         });
     }, [setQuestionsState, currentIndex]);
+
     const currentQuestion = questionsState.questions[currentIndex] ?? '';
     const currentVariants = questionsState.answerVariants[currentIndex] ?? [];
     const correctAnswer = questionsState.correctAnswers[currentIndex];
     const questionValue = questionsState.questionsValues[currentIndex] ?? 0;
     return (
         <View style={styles.commonStyles.formContainer}>
-            <TextInput 
+            <TextInput
                 style={styles.commonStyles.textInput}
                 placeholder="Назва тесту"
                 value={questionsState.title}
@@ -85,7 +104,9 @@ export default function QuestionEditingForm({ questionsState, setQuestionsState 
                 textAlign="center"
                 onChangeText={titleChangeHandler}
             />
-            <Text accessibilityRole="header" style={styles.commonStyles.header}>Запитання {currentIndex + 1}</Text>
+            <Text accessibilityRole="header" style={styles.commonStyles.header}>
+                Запитання {currentIndex + 1}
+            </Text>
 
             <TextInput
                 style={styles.commonStyles.textInput}
@@ -109,7 +130,11 @@ export default function QuestionEditingForm({ questionsState, setQuestionsState 
             <View style={{ flex: 1, width: '100%', rowGap: 10 }}>
                 {
                     currentVariants.map((variant, index) => (
-                        <View key={index} style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
+                        <View key={index} style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            columnGap: 10
+                        }}>
                             <TextInput
                                 style={[styles.commonStyles.textInput, { flex: 1 }]}
                                 value={variant}
@@ -118,16 +143,20 @@ export default function QuestionEditingForm({ questionsState, setQuestionsState 
                                 placeholderTextColor={styles.mainColorDark}
                                 accessibilityLabel={`Варіант ${index + 1}`}
                             />
-                            <Pressable onPress={() => removeVariantHandler(index)} accessibilityLabel={`Видалити варіант ${index + 1}`}>
+                            <Pressable onPress={() => removeVariantHandler(index)}
+                                accessibilityLabel={`Видалити варіант ${index + 1}`}>
                                 <Ionicons name="trash" size={24} color="red" />
                             </Pressable>
-                            <Pressable onPress={() => setCorrectAnswerHandler(index)} accessibilityLabel={`Позначити варіант ${index + 1} як правильний`}>
-                                <Ionicons name="checkmark-circle" size={24} color={correctAnswer === index ? "green" : "gray"} />
+                            <Pressable onPress={() => setCorrectAnswerHandler(index)}
+                                accessibilityLabel={`Позначити варіант ${index + 1} як правильний`}>
+                                <Ionicons name="checkmark-circle" size={24}
+                                    color={correctAnswer === index ? "green" : "gray"} />
                             </Pressable>
                         </View>
                     ))
                 }
-                <Pressable style={styles.commonStyles.button} onPress={addVariantHandler} accessibilityLabel="Додати варіант">
+                <Pressable style={styles.commonStyles.button} onPress={addVariantHandler}
+                    accessibilityLabel="Додати варіант">
                     <Text style={styles.commonStyles.buttonText}>Додати варіант</Text>
                 </Pressable>
             </View>

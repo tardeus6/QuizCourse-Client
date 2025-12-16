@@ -12,19 +12,24 @@ export default function AuthForm() {
                 <LoginForm />) : (
                 <RegisterForm setAuthType={setAuthType} />
             )}
-            <View style={{...styles.commonStyles.container, rowGap: 10, margin: 20, alignItems: 'center'}}>
+            <View style={{...styles.commonStyles.container, 
+                rowGap: 10, alignItems: 'center'}}>
                 <View style={authType === 'login' ? 
                     styles.commonStyles.activeButton
                     : styles.commonStyles.button}>
                     <Pressable onPress={() => setAuthType('login')}>
-                        <Text style={styles.commonStyles.buttonText}>Вхід</Text>
+                        <Text style={styles.commonStyles.buttonText}>
+                            Вхід
+                        </Text>
                     </Pressable>
                 </View>
                 <View style={authType === 'register' ? 
                     styles.commonStyles.activeButton
                     : styles.commonStyles.button}>
                     <Pressable onPress={() => setAuthType('register')}>
-                        <Text style={styles.commonStyles.buttonText}>Реєстрація</Text>
+                        <Text style={styles.commonStyles.buttonText}>
+                            Реєстрація
+                        </Text>
                     </Pressable>
                 </View>
             </View>
